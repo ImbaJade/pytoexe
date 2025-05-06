@@ -309,6 +309,7 @@ jobs:
         import sys
         from PyInstaller.building.api import PYZ, EXE, COLLECT
         from PyInstaller.building.build_main import Analysis
+        from PyInstaller.utils.hooks import collect_data_files
         
         # Set the correct encoding for sys.stdout and sys.stderr
         if hasattr(sys.stdout, 'reconfigure'):
@@ -320,7 +321,7 @@ jobs:
             ['$($script_path -replace '\\', '\\\\')'],
             pathex=[],
             binaries=[],
-            datas=[],
+            datas=collect_data_files('gradio_client', include_py_files=False),
             hiddenimports=[],
             hookspath=[],
             hooksconfig={},
