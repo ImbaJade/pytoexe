@@ -42,6 +42,8 @@ jobs:
       run: |
         echo "pyinstaller" > requirements.txt
         echo "chardet" >> requirements.txt
+        echo "pandas" >> requirements.txt
+        echo "gradio" >> requirements.txt
       shell: powershell
 
     # Langkah 3: Setup Python - explicitly specify 3.10.x
