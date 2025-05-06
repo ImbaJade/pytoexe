@@ -316,12 +316,14 @@ jobs:
             sys.stdout.reconfigure(encoding='utf-8')
         if hasattr(sys.stderr, 'reconfigure'):
             sys.stderr.reconfigure(encoding='utf-8')
-        
+        datas = []
+        datas += collect_data_files('gradio_client', include_py_files=False)
+        datas += collect_data_files('safehttpx', include_py_files=False)
         a = Analysis(
             ['$($script_path -replace '\\', '\\\\')'],
             pathex=[],
             binaries=[],
-            datas=collect_data_files('gradio_client', include_py_files=False),
+            datas=datas,
             hiddenimports=[],
             hookspath=[],
             hooksconfig={},
