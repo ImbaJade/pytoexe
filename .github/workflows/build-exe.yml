@@ -317,16 +317,17 @@ jobs:
         if hasattr(sys.stderr, 'reconfigure'):
             sys.stderr.reconfigure(encoding='utf-8')
         datas = []
-        datas += collect_data_files('gradio_client', include_py_files=True)
-        datas += collect_data_files('safehttpx', include_py_files=True)
-        datas += collect_data_files('groovy', include_py_files=True)
+        datas += collect_data_files('gradio_client', include_py_files=False)
+        datas += collect_data_files('safehttpx', include_py_files=False)
+        datas += collect_data_files('groovy', include_py_files=False)
         datas += collect_data_files('gradio', include_py_files=True)
+        hiddenimports=['gradio.blocks_events']
         a = Analysis(
             ['$($script_path -replace '\\', '\\\\')'],
             pathex=[],
             binaries=[],
             datas=datas,
-            hiddenimports=[],
+            hiddenimports=hiddenimports,
             hookspath=[],
             hooksconfig={},
             runtime_hooks=[],
