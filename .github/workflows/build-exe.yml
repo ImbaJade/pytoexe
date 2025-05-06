@@ -363,13 +363,24 @@ jobs:
             codesign_identity=None,
             entitlements_file=None,
         )
+        coll = COLLECT(
+        exe,
+        a.binaries,
+        a.zipfiles,
+        a.datas,
+        strip=False,
+        upx=True,
+        upx_exclude=[],
+        name='$exe_name'
+        )
         "@
         
         # Save the spec file
         $spec_content | Out-File -FilePath "custom_build.spec" -Encoding utf8
         
         # Build using the custom spec file
-        pyinstaller --clean --log-level DEBUG custom_build.spec
+        # pyinstaller --clean --log-level DEBUG custom_build.spec
+        pyinstaller --clean --log-level DEBUG --noupx --noarchive custom_build.spec
         
         # Check if the build was successful by looking for the EXE
         $exe_path = "dist/$exe_name.exe"
@@ -505,14 +516,24 @@ jobs:
         }
       shell: powershell
 
-    # Langkah 15: Upload EXE as artifact
-    - name: Upload EXE as artifact
-      if: always()  # This ensures the step runs even if previous steps failed
+    # Langkah 15a: Archive EXE folder as ZIP
+    - name: Archive EXE output folder into ZIP
+      if: always()
+      run: |
+        $script_path = Get-Content -Path "${{ steps.find_python_file.outputs.script_file }}" -Encoding utf8
+        $file_name = Split-Path -Leaf $script_path
+        $exe_name = $file_name -replace '\.py$', ''
+        Compress-Archive -Path "dist/$exe_name/*" -DestinationPath "$exe_name.zip"
+      shell: powershell
+
+    # Langkah 15b: Upload EXE ZIP as artifact
+    - name: Upload EXE ZIP as artifact
+      if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: exe-file
+        name: exe-zip
         path: |
-          **/*.exe
+          *.zip
 
     # Langkah 16: Post message with download link
     - name: Post download link
