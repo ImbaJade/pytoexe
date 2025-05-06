@@ -40,7 +40,7 @@ jobs:
     # Langkah 2: Create requirements.txt first
     - name: Create requirements.txt
       run: |
-        echo "pyinstaller" > requirements.txt
+        echo ""pyinstaller==5.13.0" > requirements.txt
         echo "chardet" >> requirements.txt
         echo "pandas" >> requirements.txt
         echo "gradio" >> requirements.txt
