@@ -44,6 +44,7 @@ jobs:
         echo "chardet" >> requirements.txt
         echo "pandas" >> requirements.txt
         echo "gradio" >> requirements.txt
+        echo "pyinstaller-hooks-contrib" >> requirements.txt
       shell: powershell
 
     # Langkah 3: Setup Python - explicitly specify 3.10.x
@@ -309,8 +310,6 @@ jobs:
         import sys
         from PyInstaller.building.api import PYZ, EXE, COLLECT
         from PyInstaller.building.build_main import Analysis
-        from PyInstaller.utils.hooks import collect_data_files
-        pip install pyinstaller-hooks-contrib
         from PyInstaller.utils.hooks import collect_data_files, collect_submodules
         
         # Set the correct encoding for sys.stdout and sys.stderr
